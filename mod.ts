@@ -29,9 +29,9 @@ export default function (fn: any) {
     if (hook.before) hook.before.apply(instance);
 
     for (const x of Object.values<TestDefined>(tests)) {
-      if (hook?.["before.each"]) hook?.["before.each"].apply(instance);
+      if (hook["before.each"]) hook["before.each"].apply(instance);
       await t.step({ name: x.desc, fn: x.fn.bind(instance), ignore: x.skip });
-      if (hook?.["after.each"]) hook?.["after.each"].apply(instance);
+      if (hook["after.each"]) hook["after.each"].apply(instance);
     }
 
     if (hook.after) hook.after.apply(instance);
