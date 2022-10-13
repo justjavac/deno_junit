@@ -44,7 +44,7 @@ class MyFirstJUnitJupiterTests {
 - [x] @BeforeEach
 - [x] @AfterEach
 - [x] @BeforeAll
-- [ ] @AfterAll
+- [x] @AfterAll
 - [ ] @Nested
 - [ ] @Tag
 - [x] @Disabled
