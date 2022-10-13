@@ -29,6 +29,30 @@ class MyFirstJUnitJupiterTests {
 }
 ```
 
+## TODO
+
+- [x] @Test
+- [ ] @ParameterizedTest
+- [ ] @RepeatedTest
+- [ ] @TestFactory
+- [ ] @TestTemplate
+- [ ] @TestClassOrder
+- [ ] @TestMethodOrder
+- [ ] @TestInstance
+- [x] @DisplayName
+- [ ] @DisplayNameGeneration
+- [x] @BeforeEach
+- [x] @AfterEach
+- [x] @BeforeAll
+- [ ] @AfterAll
+- [ ] @Nested
+- [ ] @Tag
+- [x] @Disabled
+- [ ] @Timeout
+- [ ] @ExtendWith
+- [ ] @RegisterExtension
+- [ ] @TempDir
+
 ## License
 
 [deno_junit](https://github.com/justjavac/deno_junit) is released under the MIT
