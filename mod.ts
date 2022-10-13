@@ -4,6 +4,8 @@ import { data } from "./decrator.ts";
 interface TestDefined {
   desc: string;
   fn: () => void;
+  skip?: boolean;
+  skipReason?: string;
 }
 
 // deno-lint-ignore no-explicit-any
@@ -14,7 +16,11 @@ export default function (fn: any) {
 
   if (hook == undefined) {
     Object.values<TestDefined>(tests).forEach((x) => {
-      Deno.test(x.desc, x.fn.bind(instance));
+      Deno.test({
+        name: x.desc,
+        fn: x.fn.bind(instance),
+        ignore: x.skip,
+      });
     });
     return;
   }
@@ -24,7 +30,7 @@ export default function (fn: any) {
 
     for (const x of Object.values<TestDefined>(tests)) {
       if (hook?.["before.each"]) hook?.["before.each"].apply(instance);
-      await t.step(x.desc, x.fn.bind(instance));
+      await t.step({ name: x.desc, fn: x.fn.bind(instance), ignore: x.skip });
       if (hook?.["after.each"]) hook?.["after.each"].apply(instance);
     }
 
