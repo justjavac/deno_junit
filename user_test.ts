@@ -5,7 +5,9 @@ import {
 } from "https://deno.land/std@0.159.0/testing/asserts.ts";
 import { User } from "https://deno.land/std@0.159.0/testing/bdd_examples/user.ts";
 import DenoTest, {
+  AfterAll,
   AfterEach,
+  BeforeAll,
   BeforeEach,
   Disabled,
   DisplayName,
@@ -47,6 +49,35 @@ export class UserAgeTest {
   }
 
   @AfterEach
+  shutDown() {
+    User.users.clear();
+  }
+
+  @Test
+  getAge() {
+    assertThrows(() => this.user.getAge(), Error, "Age unknown");
+    this.user.age = 18;
+    assertEquals(this.user.getAge(), 18);
+  }
+
+  @Test
+  setAge() {
+    this.user.setAge(18);
+    assertEquals(this.user.getAge(), 18);
+  }
+}
+
+// Using @BeforeAll & @AfterAll，execute it only once before and after running all test
+@DenoTest
+export class UserAgeTestUseAll {
+  private user!: User;
+
+  @BeforeAll
+  init() {
+    this.user = new User("Kyle");
+  }
+
+  @AfterAll
   shutDown() {
     User.users.clear();
   }
