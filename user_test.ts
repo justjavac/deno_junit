@@ -47,7 +47,7 @@ export class UserAgeTest {
   }
 
   @AfterEach
-  shutDoen() {
+  shutDown() {
     User.users.clear();
   }
 
