@@ -24,7 +24,7 @@ class MyFirstJUnitJupiterTests {
 
   @Test
   addition() {
-    assert.is(2, calculator.add(1, 1));
+    assert.is(2, this.calculator.add(1, 1));
   }
 }
 ```
