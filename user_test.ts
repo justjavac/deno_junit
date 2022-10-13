@@ -4,7 +4,13 @@ import {
   assertThrows,
 } from "https://deno.land/std@0.159.0/testing/asserts.ts";
 import { User } from "https://deno.land/std@0.159.0/testing/bdd_examples/user.ts";
-import DenoTest, { AfterEach, BeforeEach, DisplayName, Test } from "./mod.ts";
+import DenoTest, {
+  AfterEach,
+  BeforeEach,
+  Disabled,
+  DisplayName,
+  Test,
+} from "./mod.ts";
 
 @DenoTest
 export class UserTest {
@@ -13,6 +19,10 @@ export class UserTest {
   userEmpty() {
     assertEquals(User.users.size, 0);
   }
+
+  @Test
+  @Disabled("Disabled by jjc")
+  bar() {}
 
   @Test
   @DisplayName("constructor")
