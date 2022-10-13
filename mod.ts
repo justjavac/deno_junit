@@ -12,13 +12,22 @@ export default function (fn: any) {
   const suite = data()[fn.name];
   const { hook, ...tests } = suite;
 
-  if (hook?.["before"]) hook?.["before"].apply(instance);
+  if (hook == undefined) {
+    Object.values<TestDefined>(tests).forEach((x) => {
+      Deno.test(x.desc, x.fn.bind(instance));
+    });
+    return;
+  }
 
-  Object.values<TestDefined>(tests).forEach((x) => {
-    if (hook?.["before.each"]) hook?.["before.each"].apply(instance);
-    Deno.test(x.desc, x.fn.bind(instance));
-    if (hook?.["after.each"]) hook?.["after.each"].apply(instance);
+  Deno.test(fn.name, async (t) => {
+    if (hook.before) hook.before.apply(instance);
+
+    for (const x of Object.values<TestDefined>(tests)) {
+      if (hook?.["before.each"]) hook?.["before.each"].apply(instance);
+      await t.step(x.desc, x.fn.bind(instance));
+      if (hook?.["after.each"]) hook?.["after.each"].apply(instance);
+    }
+
+    if (hook.after) hook.after.apply(instance);
   });
-
-  if (hook?.["after"]) hook?.["after"].apply(instance);
 }
