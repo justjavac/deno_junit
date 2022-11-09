@@ -32,7 +32,7 @@ class MyFirstJUnitJupiterTests {
 ## TODO
 
 - [x] @Test
-- [ ] @ParameterizedTest
+- [x] @ParameterizedTest
 - [ ] @RepeatedTest
 - [ ] @TestFactory
 - [ ] @TestTemplate

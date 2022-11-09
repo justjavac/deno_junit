@@ -12,6 +12,7 @@ import DenoTest, {
   Disabled,
   DisplayName,
   Test,
+  ParameterizedTest
 } from "./mod.ts";
 
 @DenoTest
@@ -94,4 +95,28 @@ export class UserAgeTestUseAll {
     this.user.setAge(18);
     assertEquals(this.user.getAge(), 18);
   }
+}
+
+// Using @ParameterizedTest run a test multiple times with different arguments.
+@DenoTest
+export class UserAgeTestUseParameterizedTest {
+  private user!: User;
+
+  @BeforeAll
+  init() {
+    this.user = new User("Kyle");
+  }
+
+  @AfterAll
+  shutDown() {
+    User.users.clear();
+  }
+
+  @ParameterizedTest([1,2])
+  getAge(age:number) {
+    assertThrows(() => this.user.getAge(), Error, "Age unknown");
+    this.user.age = age;
+    assertEquals(this.user.getAge(), age);
+  }
+
 }
