@@ -147,3 +147,26 @@ export function Disabled(message: string): ClassDecorator & PropertyDecorator {
     }
   };
 }
+
+/**
+ * Parameterized tests make it possible to run a test multiple times with different arguments.
+ *
+ * @alpha
+ */
+
+export function ParameterizedTest(params: Array<any>): MethodDecorator {
+  return function (
+    target: any,
+    propertyName: string | symbol,
+    _descriptor: TypedPropertyDescriptor<any>,
+  ) {
+    const className = target.constructor.name;
+
+    if (!cache[className]) cache[className] = {};
+    if (!cache[className][propertyName]) cache[className][propertyName] = {};
+
+    cache[className][propertyName]["desc"] = "no display name";
+    cache[className][propertyName]["fn"] = target[propertyName];
+    cache[className][propertyName]["params"] = params;
+  };
+}

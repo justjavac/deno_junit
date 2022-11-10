@@ -6,6 +6,8 @@ interface TestDefined {
   fn: () => void;
   skip?: boolean;
   skipReason?: string;
+  // deno-lint-ignore no-explicit-any
+  params?: Array<any>;
 }
 
 // deno-lint-ignore no-explicit-any
@@ -16,11 +18,24 @@ export default function (fn: any) {
 
   if (hook == undefined) {
     Object.values<TestDefined>(tests).forEach((x) => {
-      Deno.test({
-        name: x.desc,
-        fn: x.fn.bind(instance),
-        ignore: x.skip,
-      });
+      if (x.params) {
+        x.params.map((param) =>
+          Deno.test({
+            name: x.desc,
+            fn: x.fn.bind(instance, param),
+            ignore: x.skip,
+            sanitizeOps: false,
+            sanitizeResources: false,
+            sanitizeExit: false,
+          })
+        );
+      } else {
+        Deno.test({
+          name: x.desc,
+          fn: x.fn.bind(instance),
+          ignore: x.skip,
+        });
+      }
     });
     return;
   }
@@ -30,7 +45,24 @@ export default function (fn: any) {
 
     for (const x of Object.values<TestDefined>(tests)) {
       if (hook["before.each"]) hook["before.each"].apply(instance);
-      await t.step({ name: x.desc, fn: x.fn.bind(instance), ignore: x.skip });
+
+      if (x.params) {
+        await Promise.all(
+          x.params.map((param) =>
+            t.step({
+              name: x.desc,
+              fn: x.fn.bind(instance, param),
+              ignore: x.skip,
+              sanitizeOps: false,
+              sanitizeResources: false,
+              sanitizeExit: false,
+            })
+          ),
+        );
+      } else {
+        await t.step({ name: x.desc, fn: x.fn.bind(instance), ignore: x.skip });
+      }
+
       if (hook["after.each"]) hook["after.each"].apply(instance);
     }
 

@@ -11,6 +11,7 @@ import DenoTest, {
   BeforeEach,
   Disabled,
   DisplayName,
+  ParameterizedTest,
   Test,
 } from "./mod.ts";
 
@@ -93,5 +94,38 @@ export class UserAgeTestUseAll {
   setAge() {
     this.user.setAge(18);
     assertEquals(this.user.getAge(), 18);
+  }
+}
+
+// Using @ParameterizedTest run a test multiple times with different arguments.
+@DenoTest
+export class MyFirstJUnitParameterizedTest {
+  @BeforeAll
+  initAll() {
+    console.log("BeforeAll initAll");
+  }
+
+  @BeforeEach
+  init() {
+    console.log("BeforeEach");
+  }
+
+  @AfterEach
+  tearDown() {
+    console.log("---AfterEach");
+  }
+
+  @AfterAll
+  tearDownAll() {
+    console.log("AfterAll---");
+  }
+
+  @ParameterizedTest([4, 4, 16])
+  sqrt(num: number) {
+    if (num == 16) {
+      assertEquals(Math.sqrt(num), 4);
+    } else {
+      assertEquals(Math.sqrt(num), 2);
+    }
   }
 }
