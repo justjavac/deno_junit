@@ -156,7 +156,7 @@ export function Disabled(message: string): ClassDecorator & PropertyDecorator {
 
 export function ParameterizedTest(params: Array<any>): MethodDecorator {
   return function (
-    target: object | any,
+    target: any,
     propertyName: string | symbol,
     _descriptor: TypedPropertyDescriptor<any>,
   ) {

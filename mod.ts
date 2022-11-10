@@ -6,6 +6,7 @@ interface TestDefined {
   fn: () => void;
   skip?: boolean;
   skipReason?: string;
+  // deno-lint-ignore no-explicit-any
   params?: Array<any>;
 }
 
@@ -23,6 +24,9 @@ export default function (fn: any) {
             name: x.desc,
             fn: x.fn.bind(instance, param),
             ignore: x.skip,
+            sanitizeOps: false,
+            sanitizeResources: false,
+            sanitizeExit: false,
           })
         );
       } else {
@@ -44,13 +48,15 @@ export default function (fn: any) {
 
       if (x.params) {
         await Promise.all(
-          x.params.map(
-            async (param) =>
-              await t.step({
-                name: x.desc,
-                fn: x.fn.bind(instance, param),
-                ignore: x.skip,
-              }),
+          x.params.map((param) =>
+            t.step({
+              name: x.desc,
+              fn: x.fn.bind(instance, param),
+              ignore: x.skip,
+              sanitizeOps: false,
+              sanitizeResources: false,
+              sanitizeExit: false,
+            })
           ),
         );
       } else {

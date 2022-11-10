@@ -99,23 +99,33 @@ export class UserAgeTestUseAll {
 
 // Using @ParameterizedTest run a test multiple times with different arguments.
 @DenoTest
-export class UserAgeTestUseParameterizedTest {
-  private user!: User;
-
+export class MyFirstJUnitParameterizedTest {
   @BeforeAll
+  initAll() {
+    console.log("BeforeAll initAll");
+  }
+
+  @BeforeEach
   init() {
-    this.user = new User("Kyle");
+    console.log("BeforeEach");
+  }
+
+  @AfterEach
+  tearDown() {
+    console.log("---AfterEach");
   }
 
   @AfterAll
-  shutDown() {
-    User.users.clear();
+  tearDownAll() {
+    console.log("AfterAll---");
   }
 
-  @ParameterizedTest([1, 2])
-  getAge(age: number) {
-    assertThrows(() => this.user.getAge(), Error, "Age unknown");
-    this.user.age = age;
-    assertEquals(this.user.getAge(), age);
+  @ParameterizedTest([4, 4, 16])
+  sqrt(num: number) {
+    if (num == 16) {
+      assertEquals(Math.sqrt(num), 4);
+    } else {
+      assertEquals(Math.sqrt(num), 2);
+    }
   }
 }
