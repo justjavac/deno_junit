@@ -21,16 +21,16 @@ export default function (fn: any) {
         x.params.map((param) =>
           Deno.test({
             name: x.desc,
-            fn: x.fn.bind(instance,param),
+            fn: x.fn.bind(instance, param),
             ignore: x.skip,
           })
-        )
+        );
       } else {
         Deno.test({
           name: x.desc,
           fn: x.fn.bind(instance),
           ignore: x.skip,
-        })
+        });
       }
     });
     return;
@@ -41,7 +41,7 @@ export default function (fn: any) {
 
     for (const x of Object.values<TestDefined>(tests)) {
       if (hook["before.each"]) hook["before.each"].apply(instance);
-      
+
       if (x.params) {
         await Promise.all(
           x.params.map(
@@ -50,11 +50,11 @@ export default function (fn: any) {
                 name: x.desc,
                 fn: x.fn.bind(instance, param),
                 ignore: x.skip,
-              })
-          )
-        )
+              }),
+          ),
+        );
       } else {
-        await t.step({ name: x.desc, fn: x.fn.bind(instance), ignore: x.skip })
+        await t.step({ name: x.desc, fn: x.fn.bind(instance), ignore: x.skip });
       }
 
       if (hook["after.each"]) hook["after.each"].apply(instance);

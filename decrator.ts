@@ -154,13 +154,12 @@ export function Disabled(message: string): ClassDecorator & PropertyDecorator {
  * @alpha
  */
 
- export function ParameterizedTest(params: Array<any>): MethodDecorator {
+export function ParameterizedTest(params: Array<any>): MethodDecorator {
   return function (
     target: object | any,
     propertyName: string | symbol,
     _descriptor: TypedPropertyDescriptor<any>,
   ) {
-
     const className = target.constructor.name;
 
     if (!cache[className]) cache[className] = {};

@@ -11,8 +11,8 @@ import DenoTest, {
   BeforeEach,
   Disabled,
   DisplayName,
+  ParameterizedTest,
   Test,
-  ParameterizedTest
 } from "./mod.ts";
 
 @DenoTest
@@ -112,11 +112,10 @@ export class UserAgeTestUseParameterizedTest {
     User.users.clear();
   }
 
-  @ParameterizedTest([1,2])
-  getAge(age:number) {
+  @ParameterizedTest([1, 2])
+  getAge(age: number) {
     assertThrows(() => this.user.getAge(), Error, "Age unknown");
     this.user.age = age;
     assertEquals(this.user.getAge(), age);
   }
-
 }
